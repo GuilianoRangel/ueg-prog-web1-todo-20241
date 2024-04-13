@@ -1,1 +1,16 @@
-<p>task-list-item works!</p>
+<div class="form-group form-check">
+  <input type="checkbox" class="form-check-input" />
+</div>
+<div [innerHTML]="task.description" class="task-item-description"
+     [ngClass]="task.completed ? 'task-completed' : ''">
+</div>
+<div>
+  <button type="button" [routerLink]="['/edit', task.id]" class="btn btn-primary mr-1">
+    Alterar
+  </button>
+</div>
+<div>
+  <button type="button" class="btn btn-danger">
+    Excluir
+  </button>
+</div>
