@@ -1,12 +1,11 @@
 <header>
   <nav class="navbar fixed-top navbar-dark bg-primary">
-    <a class="navbar-brand">{{ appTitle }}</a>
+    <a class="navbar-brand" [routerLink]="['/']">{{  appTitle }}</a>
   </nav>
 </header>
 
 <section>
   <main class="container">
-    <div>asdf</div>
     <router-outlet></router-outlet>
   </main>
 </section>
