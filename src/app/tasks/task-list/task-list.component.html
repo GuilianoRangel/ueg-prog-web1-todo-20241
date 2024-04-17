@@ -3,7 +3,7 @@
 <section>
   <ul class="list-group">
     <li class="list-group-item task-item" *ngFor="let task of tasks">
-        <app-task-list-item [task]="task"></app-task-list-item>
+        <app-task-list-item [task]="task"  class="task-item"></app-task-list-item>
     </li>
     <div *ngIf="tasks.length == 0" class="alert alert-warning" role="alert">
       Nenhuma tarefa foi cadastrada ainda
