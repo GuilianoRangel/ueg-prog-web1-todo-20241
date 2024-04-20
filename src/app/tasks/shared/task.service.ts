@@ -5,20 +5,11 @@ import {Task} from './task';
   providedIn: 'root'
 })
 export class TaskService {
-  private tasks: Task[] = [
-    {id: 1,  description: 'Tarefa 1',  completed: false },
-    {id: 2,  description: 'Tarefa 2',  completed: false },
-    {id: 3,  description: 'Tarefa 3',  completed: true },
-    {id: 4,  description: 'Tarefa 4',  completed: false },
-    {id: 5,  description: 'Tarefa 5',  completed: false },
-    {id: 6,  description: 'Tarefa 6',  completed: false },
-    {id: 7,  description: 'Tarefa 7',  completed: false },
-    {id: 8,  description: 'Tarefa 8',  completed: false },
-    {id: 9,  description: 'Tarefa 9',  completed: false },
-    {id: 10, description: 'Tarefa 10', completed: false },
-  ]
+  private tasks: Task[] = []
 
-  constructor() { }
+  constructor() {
+    this.loadList()
+  }
 
   getAll(): Task[]{
     return this.tasks;
@@ -37,16 +28,31 @@ export class TaskService {
       }
     }else{
       console.log("Alterar:"+JSON.stringify(task))
-      const lastId = this.tasks[this.tasks.length-1].id;
+      const lastId = this.tasks.length > 0 ?
+        this.tasks[this.tasks.length-1].id :
+        0;
       task.id = lastId + 1;
       task.completed = false;
       this.tasks.push(task);
     }
+    this.storeList()
   }
 
   delete(id: number){
     const taskIndex = this.tasks.findIndex( (value) => value.id == id);
     this.tasks.splice(taskIndex, 1);
+    this.storeList()
   }
+
+  private storeList(){
+    window.localStorage.setItem('lista-tarefas', JSON.stringify(this.tasks));
+  }
+  private loadList(){
+    const list = window.localStorage.getItem('lista-tarefas');
+    if(list){
+      this.tasks = JSON.parse(list);
+    }
+  }
+
 
 }
