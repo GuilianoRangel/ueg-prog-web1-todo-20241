@@ -28,9 +28,6 @@ export class TaskListComponent implements OnInit  {
 
   ngOnInit(): void {
     this.tasks = this.taskService.getAll();
-    console.log('tasks', JSON.stringify(this.tasks));
-    console.log('tasks', this.tasks);
-    this.tasks[0].completed = true;
   }
 
 }
