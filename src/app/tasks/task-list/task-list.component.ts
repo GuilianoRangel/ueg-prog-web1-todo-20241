@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RouterLink} from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 import {TaskService} from "../shared/task.service";
 import {Task} from "../shared/task";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
@@ -22,12 +22,24 @@ export class TaskListComponent implements OnInit  {
   tasks: Task[] = [];
 
   constructor(
-    public taskService: TaskService
+    public taskService: TaskService,
+    route: ActivatedRoute,
   ) {
+    this.tasks = route.snapshot.data['tasksData'];
   }
 
   ngOnInit(): void {
-    this.tasks = this.taskService.getAll();
   }
 
+  recarregar() {
+    this.tasks = [];
+     this.taskService.getAll().subscribe(value => {
+      this.tasks = value;
+    });
+  }
+
+  refresh(task: Task) {
+    const taskIndex = this.tasks.findIndex( (value) => value.id == task.id);
+    this.tasks.splice(taskIndex, 1);
+  }
 }

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { Task } from '../shared/task';
 import {NgClass} from "@angular/common";
 import {RouterLink} from "@angular/router";
@@ -19,6 +19,8 @@ import {TaskService} from "../shared/task.service";
 export class TaskListItemComponent {
   @Input()
   task!: Task;
+  @Output()
+  itemChange: EventEmitter<Task> = new EventEmitter<Task>();
 
   constructor(public taskService: TaskService) {
   }
@@ -29,7 +31,15 @@ export class TaskListItemComponent {
   }
 
   delete(task: Task) {
-    this.taskService.delete(task.id);
+    this.taskService.delete(task.id).subscribe({
+      next: value => {
+        alert("Excluído com sucesso!");
+        this.itemChange.emit(value);
+      },
+      error: error => {
+        alert(`Erro ao excluir:${error.error}`);
+      }
+    });
   }
 
 }

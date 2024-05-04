@@ -1,58 +1,42 @@
 import {Injectable} from '@angular/core';
 import {Task} from './task';
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private tasks: Task[] = []
+  private http!: HttpClient;
 
-  constructor() {
-    this.loadList()
+  constructor(http: HttpClient ) {
+    this.http = http;
   }
 
-  getAll(): Task[]{
-    return this.tasks;
+  getAll(): Observable<Task[]>{
+    console.log("Inicio getAll");
+    return this.http.get<Task[]>("http://localhost:8080/api/v1/task");
   }
 
-  getById(id: number) {
-    return this.tasks.find((value) => value.id == id);
+  getById(id: number): Observable<Task> {
+    console.log("Inicio getAll");
+    return this.http.get<Task>(`http://localhost:8080/api/v1/task/${id}`);
   }
-  save(task: Task){
+  save(task: Task):Observable<Task>{
+    var retorno :Observable<Task>;
     if(task.id) {
-      const taskArr = this.getById(task.id);
-      console.log("Save:"+JSON.stringify(task));
-      if(taskArr){
-        taskArr.description = task.description;
-        taskArr.completed = task.completed;
-      }
-    }else{
       console.log("Alterar:"+JSON.stringify(task))
-      const lastId = this.tasks.length > 0 ?
-        this.tasks[this.tasks.length-1].id :
-        0;
-      task.id = lastId + 1;
-      task.completed = false;
-      this.tasks.push(task);
+      retorno = this.http.put<Task>(`http://localhost:8080/api/v1/task/${task.id}`, task);
+    }else{
+      console.log("Incluir:"+JSON.stringify(task))
+      retorno = this.http.post<Task>("http://localhost:8080/api/v1/task", task);
     }
-    this.storeList()
+    return retorno;
   }
 
-  delete(id: number){
-    const taskIndex = this.tasks.findIndex( (value) => value.id == id);
-    this.tasks.splice(taskIndex, 1);
-    this.storeList()
+  delete(id: number): Observable<Task>{
+    console.log("Alterar:"+id)
+    return this.http.delete<Task>(`http://localhost:8080/api/v1/task/${id}`);
   }
-
-  private storeList(){
-    window.localStorage.setItem('lista-tarefas', JSON.stringify(this.tasks));
-  }
-  private loadList(){
-    const list = window.localStorage.getItem('lista-tarefas');
-    if(list){
-      this.tasks = JSON.parse(list);
-    }
-  }
-
 
 }

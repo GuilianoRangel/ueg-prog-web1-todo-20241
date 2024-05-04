@@ -28,19 +28,33 @@ export class TaskFormComponent implements OnInit {
     const id = this.activateRouted.snapshot.paramMap.get('id'); //pegar na rota atual o prametro especificado na rota
     console.log("ID edição:"+id+":");
     if (id) {
-      const taskAux: Task | undefined= this.taskService.getById(parseInt(id));
-      console.log("INIT FORM:"+JSON.stringify(taskAux));
-      if(taskAux){
-        this.task = taskAux;
-        this.title = 'Alterando tarefa';
-      }
+      this.taskService.getById(parseInt(id)).subscribe(value => {
+        const taskAux = value;
+        console.log("INIT FORM:" + JSON.stringify(taskAux));
+        if (taskAux) {
+          this.task = taskAux;
+          this.title = 'Alterando tarefa';
+        }
+      }, error => {
+        console.log("Erro:", JSON.stringify(error));
+        alert(`Erro ao buscar o dados:${error.error}`);
+      })
+
     }
   }
 
   onSubmit(){
 //    console.log(this.task.description);
-    this.taskService.save(this.task);
-    this.router.navigate(['']);
+    this.taskService.save(this.task)
+      .subscribe(value => {
+        console.log("Salvo:", JSON.stringify(value));
+        //alert("Salvo com sucesso!");
+        this.router.navigate(['']);
+      }, error => {
+        console.log("Erro" + JSON.stringify(error));
+        alert('Erro ao salvar:');
+      });
+
   }
 
 }
