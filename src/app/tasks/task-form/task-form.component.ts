@@ -5,13 +5,19 @@ import {TaskService} from "../shared/task.service";
 import {FormsModule} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {DialogMessageOkComponent} from "../../core/dailog-message-ok/dialog-message-ok.component";
+import {MatOption, MatSelect} from "@angular/material/select";
+import {Category} from "../shared/category";
+import {NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-task-form',
   standalone: true,
   imports: [
     FormsModule,
-    RouterLink
+    RouterLink,
+    MatSelect,
+    MatOption,
+    NgForOf
   ],
   templateUrl: './task-form.component.html',
   styleUrl: './task-form.component.scss'
@@ -21,13 +27,16 @@ export class TaskFormComponent implements OnInit {
   title: string = 'Nova Tarefa';
 
   private dialogRef!: MatDialogRef<any>;
+  categories!: Category[];
 
   constructor(
     private activateRouted: ActivatedRoute,
     private router: Router,
     private taskService: TaskService,
     private dialog: MatDialog
-  ) { }
+  ) {
+    this.categories = activateRouted.snapshot.data['categoriesData']
+  }
 
   ngOnInit(): void {
     const id = this.activateRouted.snapshot.paramMap.get('id'); //pegar na rota atual o prametro especificado na rota

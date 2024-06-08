@@ -7,6 +7,9 @@
       <label>Descrição</label>
       <textarea [(ngModel)]="task.description" name="description" rows="5" class="form-control"></textarea>
     </div>
+    <mat-select [(ngModel)]="task.category_id" name="category_id">
+      <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
+    </mat-select>
     <button type="submit" class="btn btn-primary mr-2 ">Salvar</button>
     <button type="button" class="btn btn-secondary" [routerLink]="['']">Cancelar</button>
   </form>
