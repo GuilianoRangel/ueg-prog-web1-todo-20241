@@ -3,6 +3,8 @@ import { Task } from '../shared/task';
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {TaskService} from "../shared/task.service";
 import {FormsModule} from "@angular/forms";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {DialogMessageOkComponent} from "../../core/dailog-message-ok/dialog-message-ok.component";
 
 @Component({
   selector: 'app-task-form',
@@ -18,10 +20,13 @@ export class TaskFormComponent implements OnInit {
   task: Task = new Task();
   title: string = 'Nova Tarefa';
 
+  private dialogRef!: MatDialogRef<any>;
+
   constructor(
     private activateRouted: ActivatedRoute,
     private router: Router,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -48,14 +53,28 @@ export class TaskFormComponent implements OnInit {
     this.taskService.save(this.task)
       .subscribe(value => {
         console.log("Salvo:", JSON.stringify(value));
-        //alert("Salvo com sucesso!");
+
+        this.showMessage("Item salvo com sucesso!");
+
+
         this.router.navigate(['']);
       }, error => {
         console.log("Erro" + JSON.stringify(error));
-        alert('Erro ao salvar:');
+        this.showMessage("Erro ao Salvar-!");
       });
 
   }
 
+  private showMessage(message: string) {
+    this.dialogRef = this.dialog.open(DialogMessageOkComponent, {
+      minWidth: "200px",
+      minHeight: "100px",
+      disableClose: true,
+      data: message
+    });
+    this.dialogRef.afterClosed().subscribe(value => {
+      console.log("Botão fechar acionado");
+    })
+  }
 }
 

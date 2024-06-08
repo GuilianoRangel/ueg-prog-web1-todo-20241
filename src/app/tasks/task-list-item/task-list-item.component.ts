@@ -4,6 +4,7 @@ import {NgClass} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {TaskService} from "../shared/task.service";
+import {MessageService} from "../../core/message.service";
 
 @Component({
   selector: 'app-task-list-item',
@@ -22,22 +23,31 @@ export class TaskListItemComponent {
   @Output()
   itemChange: EventEmitter<Task> = new EventEmitter<Task>();
 
-  constructor(public taskService: TaskService) {
+  constructor(public taskService: TaskService,
+              public messageService: MessageService) {
   }
 
   onCompletedCheckChange(task: Task){
     console.log("onChange", task);
-    this.taskService.save(task);
+    this.taskService.save(task).subscribe({next:value => {
+
+      },
+      error:err => {
+        alert('Erro: '+err.error);
+        console.log(err);
+        //task.completed = false;
+      }
+    });
   }
 
   delete(task: Task) {
     this.taskService.delete(task.id).subscribe({
       next: value => {
-        alert("Excluído com sucesso!");
         this.itemChange.emit(value);
+        this.messageService.showMessage("Excluído com sucesso!!!")
       },
       error: error => {
-        alert(`Erro ao excluir:${error.error}`);
+        this.messageService.showMessage(`Erro ao excluir!!:${error.error}`)
       }
     });
   }
