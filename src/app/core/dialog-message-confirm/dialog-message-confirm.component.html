@@ -1,0 +1,10 @@
+<div mat-dialog-content>
+  <div class="text-center">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    &nbsp;<label [innerHTML]="dataConfirm.message"> </label>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button color="primary" (click)="cancel()" mat-dialog-close>{{ dataConfirm.cancelLabel }}</button>
+  <button mat-button color="warn" (click)="ok()">{{ dataConfirm.okLabel }}</button>
+</div>
