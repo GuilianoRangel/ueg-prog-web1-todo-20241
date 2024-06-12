@@ -1,7 +1,9 @@
-  <mat-card>
-    <mat-card-title [innerHTML]="message">
-    </mat-card-title>
-    <mat-card-actions>
-      <button mat-button (click)="ok()">Ok</button>
-    </mat-card-actions>
-  </mat-card>
+  <div mat-dialog-content>
+    <div class="text-center">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      &nbsp;<label [innerHTML]="message"> </label>
+    </div>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button color="primary" (click)="ok()" mat-dialog-close>ok</button>
+  </div>

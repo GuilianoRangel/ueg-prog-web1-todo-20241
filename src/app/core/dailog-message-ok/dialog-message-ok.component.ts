@@ -1,5 +1,11 @@
 import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef
+} from "@angular/material/dialog";
 import {MatCard, MatCardActions, MatCardContent, MatCardTitle} from "@angular/material/card";
 import {MatButton} from "@angular/material/button";
 
@@ -11,7 +17,10 @@ import {MatButton} from "@angular/material/button";
     MatCardActions,
     MatCardContent,
     MatCardTitle,
-    MatButton
+    MatButton,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogContent
   ],
   templateUrl: './dialog-message-ok.component.html',
   styleUrl: './dialog-message-ok.component.scss'
