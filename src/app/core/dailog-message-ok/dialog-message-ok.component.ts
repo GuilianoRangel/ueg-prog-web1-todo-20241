@@ -24,6 +24,7 @@ export class DialogMessageOkComponent {
     @Inject(MAT_DIALOG_DATA) data: string)
   {
     this.message = data;
+    this.message = this.message.replace("\n","<br\>\n");
   }
 
   ok() {

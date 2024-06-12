@@ -1,6 +1,5 @@
   <mat-card>
-    <mat-card-title>
-      {{ message }}
+    <mat-card-title [innerHTML]="message">
     </mat-card-title>
     <mat-card-actions>
       <button mat-button (click)="ok()">Ok</button>
