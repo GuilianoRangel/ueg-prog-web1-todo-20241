@@ -69,7 +69,7 @@ export class TaskFormComponent implements OnInit {
         this.router.navigate(['']);
       }, error => {
         console.log("Erro" + JSON.stringify(error));
-        this.showMessage("Erro ao Salvar-!");
+        this.showMessage("Erro ao Salvar:\n"+error.error);
       });
 
   }

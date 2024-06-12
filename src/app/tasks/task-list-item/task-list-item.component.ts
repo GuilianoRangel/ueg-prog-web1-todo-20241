@@ -23,6 +23,9 @@ export class TaskListItemComponent {
   @Output()
   itemChange: EventEmitter<Task> = new EventEmitter<Task>();
 
+  @Output()
+  deleteClick: EventEmitter<Task> = new EventEmitter<Task>();
+
   constructor(public taskService: TaskService,
               public messageService: MessageService) {
   }
@@ -41,15 +44,7 @@ export class TaskListItemComponent {
   }
 
   delete(task: Task) {
-    this.taskService.delete(task.id).subscribe({
-      next: value => {
-        this.itemChange.emit(value);
-        this.messageService.showMessage("Excluído com sucesso!!!")
-      },
-      error: error => {
-        this.messageService.showMessage(`Erro ao excluir!!:${error.error}`)
-      }
-    });
+    this.deleteClick.emit(task);
   }
 
 }
